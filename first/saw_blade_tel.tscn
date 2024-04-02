@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://b64ubyadxi73t"]
+
+[ext_resource type="Texture2D" uid="uid://dinetxwc3pr0a" path="res://assets/saw_blade_telegraph.png" id="1_8vd2m"]
+[ext_resource type="Script" path="res://saw_blade_tel.gd" id="1_l23yj"]
+[ext_resource type="Texture2D" uid="uid://bci7dejsnmujv" path="res://assets/arrow.png" id="2_rl248"]
+[ext_resource type="AudioStream" uid="uid://bieh3bkb5q4kb" path="res://assets/confirm.wav" id="4_63hep"]
+
+[node name="sawBladeTel" type="Node2D"]
+script = ExtResource("1_l23yj")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_8vd2m")
+
+[node name="Arrow" type="Sprite2D" parent="."]
+texture = ExtResource("2_rl248")
+offset = Vector2(16, 0)
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[node name="spawn_sfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_63hep")
+volume_db = 5.0
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

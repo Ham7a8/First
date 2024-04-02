@@ -1,0 +1,84 @@
+[gd_scene load_steps=9 format=3 uid="uid://bv3rtvqfqrvt0"]
+
+[ext_resource type="Texture2D" uid="uid://bjc0nbkea4mnc" path="res://assets/background.png" id="1_2tyip"]
+[ext_resource type="Script" path="res://world.gd" id="1_ioto0"]
+[ext_resource type="PackedScene" uid="uid://bsvebqmf2i3uj" path="res://balloon.tscn" id="2_8na40"]
+[ext_resource type="PackedScene" uid="uid://b64ubyadxi73t" path="res://saw_blade_tel.tscn" id="3_821b3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_loqhs"]
+size = Vector2(48, 176)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qbupg"]
+size = Vector2(48, 176)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dprka"]
+size = Vector2(18, 224)
+
+[sub_resource type="LabelSettings" id="LabelSettings_fbfu0"]
+line_spacing = 0.0
+font_size = 8
+
+[node name="World" type="Node2D"]
+script = ExtResource("1_ioto0")
+
+[node name="BG" type="Sprite2D" parent="."]
+texture = ExtResource("1_2tyip")
+centered = false
+metadata/_edit_lock_ = true
+
+[node name="Walls" type="StaticBody2D" parent="."]
+visible = false
+collision_mask = 0
+metadata/_edit_group_ = true
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls"]
+position = Vector2(24, 90)
+shape = SubResource("RectangleShape2D_loqhs")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(296, 90)
+shape = SubResource("RectangleShape2D_qbupg")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160, -7)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_dprka")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160, 187)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_dprka")
+
+[node name="Balloon" parent="." instance=ExtResource("2_8na40")]
+position = Vector2(224, 32)
+motion_mode = 1
+platform_on_leave = 2
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[node name="spawnZone" type="ColorRect" parent="."]
+visible = false
+offset_left = 64.0
+offset_top = 16.0
+offset_right = 256.0
+offset_bottom = 160.0
+color = Color(1, 0, 0, 0.180392)
+
+[node name="sawBladeTel" parent="." instance=ExtResource("3_821b3")]
+position = Vector2(88, 152)
+
+[node name="Label" type="Label" parent="."]
+offset_left = 3.0
+offset_top = 2.0
+offset_right = 43.0
+offset_bottom = 26.0
+text = "Blades
+0"
+label_settings = SubResource("LabelSettings_fbfu0")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
