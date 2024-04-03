@@ -1,6 +1,9 @@
 extends CharacterBody2D
 
 @onready var hurt_box = $HurtBox
+@onready var audio_stream_player = $AudioStreamPlayer
+@onready var balloon = $"."
+@onready var timer = $Timer
 
 
 const mac_speed = 100
@@ -17,10 +20,15 @@ func _physics_process(delta):
 	#var mouse_position = get_global_mouse_position()
 	#position = mouse_position
 	
+	if Input.is_action_pressed("ui_right"):
+		pass
+	
 func get_input():
 	input.x = int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left"))
 	input.y = int(Input.is_action_pressed("ui_down")) - int(Input.is_action_pressed("ui_up"))
 	return input.normalized()
+	
+	
 	
 func player_movement(delta):
 	input = get_input()
@@ -41,4 +49,12 @@ func player_movement(delta):
 
 func _on_hurt_box_body_entered(_body):
 	Events.balloon_poped.emit()
-	queue_free()  
+	audio_stream_player.play()
+	balloon.visible = false
+	timer.start()
+	Events.dead.emit()
+	
+
+
+func _on_timer_timeout():
+	queue_free()

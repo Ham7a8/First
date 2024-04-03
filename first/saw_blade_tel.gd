@@ -15,6 +15,7 @@ var direction = Vector2.RIGHT.rotated(randf_range(0,TAU))
 func _ready():
 	arrow.rotation = direction.angle()
 	Events.balloon_poped.connect(timer.stop)
+	spawn_sfx.pitch_scale = randf_range(0.8, 1.2)
 	spawn_sfx.play()
 
 	
